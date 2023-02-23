@@ -129,7 +129,7 @@
 		function Authenticate(){
 			vkBridge.send('VKWebAppGetUserInfo').then(data =>{
 				console.log(data);
-				unityI.SendMessage('VKSDK', 'CustomAuthenticateSuccess', JSON.stringify(data));
+				unityGame.SendMessage('VKSDK', 'CustomAuthenticateSuccess', JSON.stringify(data));
 			})
 				.catch((error) => {
 				unityGame.SendMessage('VKSDK', 'CustomAuthenticateFailed', error);
