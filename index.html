@@ -111,7 +111,6 @@
 				unityGame = instance;
 				canvas = instance.Module.canvas;
 				onResize();
-				OnInit();
 			});
 			window.addEventListener('resize', onResize);
 			onResize();
@@ -119,20 +118,7 @@
 		
 	<script src="https://unpkg.com/@vkontakte/vk-bridge/dist/browser.min.js"></script>
     <script>
-		function OnInit() {
-			vkBridge.send('VKWebAppInit')
-			  .then((data) => { 
-				if (data.result) {
-					Authenticate();
-				} else {
-					unityGame.SendMessage('VKSDK', 'FatalError');
-				}
-			  })
-			  .catch((error) => {
-					unityGame.SendMessage('VKSDK', 'FatalError');
-					console.log(error);
-			  });
-		}	
+		vkBridge.send('VKWebAppInit');
 		  
 		function Authenticate(){
 			vkBridge.send('VKWebAppGetUserInfo').then(data =>{
