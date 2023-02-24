@@ -45,77 +45,79 @@
 	<div id="gameContainer">
 		<canvas id="unity-canvas" data-pixel-art=""></canvas>
 		<script src="Build/sea_battle.loader.js"></script>
-		<script src="https://unpkg.com/@vkontakte/vk-bridge/dist/browser.min.js"></script>
 		<script>
-		var unityGame;
-		var widthMain = window.innerWidth;
-		var heightMain = window.innerHeight;
-		var isMobile = false;
-		if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
-			isMobile = true;
-			var meta = document.createElement('meta');
-			meta.name = 'viewport';
-			meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
-			document.getElementsByTagName('head')[0].appendChild(meta);				
-		}	
-		var canvas = document.querySelector("#unity-canvas");
-		var config = {
-			dataUrl: "Build/sea_battle.data",
-			frameworkUrl: "Build/sea_battle.framework.js",
-			codeUrl: "Build/sea_battle.wasm",
-			streamingAssetsUrl: "StreamingAssets",
-			companyName: "WildDrew Games",
-			productName: "project",
-			productVersion: "1.0",
-		};
-		var scaleToFit;
-		try {
-			scaleToFit = !!JSON.parse("");
-		} catch (e) {
-			scaleToFit = true;
-		}
-		function progressHandler(progress) {
-			var percent = progress * 100 + '%';
-			canvas.style.background = 'linear-gradient(to right, white, white ' + percent + ', transparent ' + percent + ', transparent) no-repeat center';
-			canvas.style.backgroundSize = '100% 1rem';
-		}
-		function onResize() {
-			var container = canvas.parentElement;
-			var w;
-			var h;
-
-			if (scaleToFit) {
-				if (isMobile) {
-					widthMain = window.innerWidth;
-					heightMain = window.innerHeight;
-				}				
-				w = window.innerWidth;
-				h = window.innerHeight;
-
-				var r = heightMain / widthMain;
-
-				if (w * r > window.innerHeight) {
-					w = Math.min(w, Math.ceil(h / r));
-				}
-				h = Math.floor(w * r);
-			} else {
-				w = 1280;
-				h = 720;
+			var unityGame;
+			var widthMain = window.innerWidth;
+			var heightMain = window.innerHeight;
+			var isMobile = false;
+			if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+				isMobile = true;
+				var meta = document.createElement('meta');
+				meta.name = 'viewport';
+				meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
+				document.getElementsByTagName('head')[0].appendChild(meta);				
+			}	
+			var canvas = document.querySelector("#unity-canvas");
+			var config = {
+				dataUrl: "Build/sea_battle.data",
+				frameworkUrl: "Build/sea_battle.framework.js",
+				codeUrl: "Build/sea_battle.wasm",
+				streamingAssetsUrl: "StreamingAssets",
+				companyName: "WildDrew Games",
+				productName: "project",
+				productVersion: "1.0",
+			};
+			var scaleToFit;
+			try {
+				scaleToFit = !!JSON.parse("");
+			} catch (e) {
+				scaleToFit = true;
 			}
+			function progressHandler(progress) {
+				var percent = progress * 100 + '%';
+				canvas.style.background = 'linear-gradient(to right, white, white ' + percent + ', transparent ' + percent + ', transparent) no-repeat center';
+				canvas.style.backgroundSize = '100% 1rem';
+			}
+			function onResize() {
+				var container = canvas.parentElement;
+				var w;
+				var h;
 
-			container.style.width = canvas.style.width = w + "px";
-			container.style.height = canvas.style.height = h + "px";
-			container.style.top = Math.floor((window.innerHeight - h) / 2) + "px";
-			container.style.left = Math.floor((window.innerWidth - w) / 2) + "px";
-		}
-		createUnityInstance(canvas, config, progressHandler).then(function (instance) {
-			unityGame = instance;
-			canvas = instance.Module.canvas;
+				if (scaleToFit) {
+					if (isMobile) {
+						widthMain = window.innerWidth;
+						heightMain = window.innerHeight;
+					}				
+					w = window.innerWidth;
+					h = window.innerHeight;
+
+					var r = heightMain / widthMain;
+
+					if (w * r > window.innerHeight) {
+						w = Math.min(w, Math.ceil(h / r));
+					}
+					h = Math.floor(w * r);
+				} else {
+					w = 1280;
+					h = 720;
+				}
+
+				container.style.width = canvas.style.width = w + "px";
+				container.style.height = canvas.style.height = h + "px";
+				container.style.top = Math.floor((window.innerHeight - h) / 2) + "px";
+				container.style.left = Math.floor((window.innerWidth - w) / 2) + "px";
+			}
+			createUnityInstance(canvas, config, progressHandler).then(function (instance) {
+				unityGame = instance;
+				canvas = instance.Module.canvas;
+				onResize();
+			});
+			window.addEventListener('resize', onResize);
 			onResize();
-		});
-		window.addEventListener('resize', onResize);
-		onResize();
+		</script>
 		
+	<script src="https://unpkg.com/@vkontakte/vk-bridge/dist/browser.min.js"></script>
+<script>
 		vkBridge.send('VKWebAppInit');
 		  
 		function Authenticate(){
@@ -135,9 +137,9 @@
 
 		function SetUserData(data){
 			vkBridge.send('VKWebAppStorageSet',{"key": "_save", "value": data}).then(_info =>{
-			console.log(_info);
-		}				
-		</script>
+			console.log("Saved!")});
+		}
+</script>
 	</div>
 </body>
 
