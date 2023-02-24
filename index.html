@@ -146,6 +146,57 @@
 			vkBridge.send('VKWebAppStorageSet',{"key": "_save", "value": data}).then(_info =>{
 			console.log("Saved!")});
 		}
+		
+      function ShowInterstitial(){
+		vkBridge.send('VKWebAppShowNativeAds', { ad_format: 'interstitial' })
+		.then((data) => {
+			if (data.result)
+			unityGame.SendMessage('VKSDK', 'InterstitialSuccess');
+			else 
+			unityGame.SendMessage('VKSDK', 'InterstitialFailed');
+		}).catch((error) => { console.log(error);});
+      }
+
+      function ShowReward(){
+		vkBridge.send('VKWebAppShowNativeAds', { ad_format: 'reward' })
+		.then((data) => {
+			if (data.result)
+			unityGame.SendMessage('VKSDK', 'RewardSuccess');
+			else 
+			unityGame.SendMessage('VKSDK', 'RewardFailed');
+		}).catch((error) => { console.log(error);});
+      }		
+	  
+      function CheckInterstitial(){
+		vkBridge.send('VKWebAppCheckNativeAds', { ad_format: 'interstitial' })
+		.then((data) => {
+			if (data.result)
+			unityGame.SendMessage('VKSDK', 'CheckInterstitialSuccess');
+			else 
+			unityGame.SendMessage('VKSDK', 'CheckInterstitialFailed');
+		}).catch((error) => { console.log(error);});
+      }
+
+      function CheckReward(){
+		vkBridge.send('VKWebAppCheckNativeAds', { ad_format: 'reward' })
+		.then((data) => {
+			if (data.result)
+			unityGame.SendMessage('VKSDK', 'CheckRewardSuccess');
+			else 
+			unityGame.SendMessage('VKSDK', 'CheckRewardFailed');
+		}).catch((error) => { console.log(error);});
+      }	
+
+      function ShowLeaderBoard(){
+		vkBridge.send("VKWebAppShowLeaderBoardBox").then( (data) => {
+			if (data.success) {
+			unityGame.SendMessage('VKSDK', 'ShowLeaderBoardSuccess');
+			}
+			})
+			.catch( (error) => {
+			console.log(error);
+			});
+      }		  
 </script>
 	</div>
 </body>
