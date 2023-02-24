@@ -131,9 +131,15 @@
 		}
 		
 		function GetUserData(){
-			vkBridge.send("VKWebAppStorageGet",{"keys":["_save"]}).then(data =>{
-			unityGame.SendMessage('VKSDK', 'DataGetting', JSON.stringify(data));
-		});}
+			vkBridge.send("VKWebAppStorageGet",{"keys":["_save"]}).then((data) => { 
+				if (data.keys) {
+				  unityGame.SendMessage('VKSDK', 'DataGetting', JSON.stringify(data));
+				}
+				})
+				.catch((error) => {
+				console.log(error);
+			});
+        }			
 
 		function SetUserData(data){
 			vkBridge.send('VKWebAppStorageSet',{"key": "_save", "value": data}).then(_info =>{
