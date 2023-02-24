@@ -120,25 +120,39 @@
     <script>
 		vkBridge.send('VKWebAppInit')
 		  .then((data) => { 
-			console.log('VKWebAppInit: ' + data.result);
+			if (data.result) {
+				Authenticate();
+			} else {
+				unityGame.SendMessage('VKSDK', 'FatalError');
+			}
 		  })
 		  .catch((error) => {
-			console.log(error);
+				unityGame.SendMessage('VKSDK', 'FatalError');
+				console.log(error);
 		  });
 		  
 		function Authenticate(){
 			vkBridge.send('VKWebAppGetUserInfo').then(data =>{
-				console.log(data);
-				unityGame.SendMessage('VKSDK', 'CustomAuthenticateSuccess', JSON.stringify(data));
+				unityGame.SendMessage('VKSDK', 'AuthenticateSuccess', JSON.stringify(data));
 			})
 				.catch((error) => {
-				unityGame.SendMessage('VKSDK', 'CustomAuthenticateFailed', error);
+				unityGame.SendMessage('VKSDK', 'AuthenticateFailed', error);
 				console.log(error);
 			});
-		}	  
+		}
 		
-		function Logger(_data){
-			console.log(_data);
+		function GetUserData(){
+			vkBridge.send("VKWebAppStorageGet",{"keys":["save_0", "save_1", "save_2", "save_3", "save_4", "save_5", "save_6", "save_7", "save_8", "save_9", "save_10", "save_11", "save_12", "save_13", "save_14", "save_15", "save_16", "save_17", "save_18", "save_19", "save_20", "save_21", "save_22", "save_23", "save_24", "save_25", "save_26", "save_27", "save_28", "save_29"]}).then(data =>{
+			unityGame.SendMessage('VKSDK', 'DataGetting', JSON.stringify(data));
+		});}
+
+		function SetUserData(key, data){
+			vkBridge.send('VKWebAppStorageSet',{"key": key, "value": data}).then(_info =>{
+			console.log("Saved key: " + key)});
+		}		
+		
+		function Logger(data){
+			console.log(data);
 		}	
 	</script>
 	</div>
