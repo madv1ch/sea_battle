@@ -134,6 +134,7 @@
 			vkBridge.send("VKWebAppStorageGet",{"keys":["_save"]}).then((data) => { 
 				if (data.keys) {
 				  unityGame.SendMessage('VKSDK', 'DataGetting', JSON.stringify(data));
+				  console.log(data);
 				}
 				})
 				.catch((error) => {
