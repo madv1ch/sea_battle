@@ -203,7 +203,7 @@
 		}	
 		
 		function URLDataGET(_data){
-			fetch(_data)
+			fetch(_data, {mode: 'cors'})
 			  .then(response => response.text())
 			  .then(res => {
 					unityGame.SendMessage('VKSDK', 'URLDataGET', res);
