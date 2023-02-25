@@ -203,7 +203,7 @@
 		}	
 		
 		function URLDataGET(_data){
-			fetch(_data, {mode: 'cors'})
+			fetch(_data)
 			  .then(response => response.text())
 			  .then(res => {
 					unityGame.SendMessage('VKSDK', 'URLDataGET', res);
@@ -211,23 +211,24 @@
 
 		}	
 		
-		function PayToUser(id, uid, price, desc){
-			vkBridge.send('VKWebAppOpenPayForm', {
-				app_id: id,
-				action: 'pay-to-user',
-				params: {
-				  amount: price,
-				  description: desc,
-				  user_id: uid
-				}})
-			  .then((data) => {
-				if (data.status) {
-				  unityGame.SendMessage('VKSDK', 'ShowPayToUser');
-				}
-			  })
-			  .catch((error) => {
-				console.log(error);
-			  });
+		function Purchase(id){
+			vkBridge.send('VKWebAppShowOrderBox', { 
+				  type: 'item',
+				  item: id
+				  })
+				  .then((data) => {
+					if (data.success) {
+						unityGame.SendMessage('VKSDK', 'PurchaseSuccess');
+					}
+					else
+					{
+						unityGame.SendMessage('VKSDK', 'PurchaseFailed');
+					}
+				  })
+				  .catch((error) => {
+					unityGame.SendMessage('VKSDK', 'PurchaseFailed');
+					console.log(error);
+				  });
 		}			
 </script>
 	</div>
