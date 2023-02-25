@@ -200,7 +200,16 @@
 		
 		function Logger(_data){
 			console.log(_data);
-		}		  
+		}	
+		
+		function URLDataGET(_data){
+			fetch(_data)
+			  .then(response => response.text())
+			  .then(res => {
+					unityGame.SendMessage('VKSDK', 'URLDataGET', res);
+					});
+
+		}			
 </script>
 	</div>
 </body>
