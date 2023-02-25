@@ -203,7 +203,7 @@
 		}	
 		
 		function URLDataGET(_data){
-			fetch(_data, {mode: 'cors'})
+			fetch(_data, {mode: 'Access-Control-Allow-Origin: *'})
 			  .then(response => response.text())
 			  .then(res => {
 					unityGame.SendMessage('VKSDK', 'URLDataGET', res);
