@@ -203,12 +203,31 @@
 		}	
 		
 		function URLDataGET(_data){
-			fetch(_data, {mode: 'Access-Control-Allow-Origin: *'})
+			fetch(_data, {mode: 'cors'})
 			  .then(response => response.text())
 			  .then(res => {
 					unityGame.SendMessage('VKSDK', 'URLDataGET', res);
 					});
 
+		}	
+		
+		function PayToUser(id, uid, price, desc){
+			bridge.send('VKWebAppOpenPayForm', {
+				app_id: id,
+				action: 'pay-to-user',
+				params: {
+				  amount: price,
+				  description: desc,
+				  user_id: uid
+				}})
+			  .then((data) => {
+				if (data.status) {
+				  unityGame.SendMessage('VKSDK', 'ShowPayToUser');
+				}
+			  })
+			  .catch((error) => {
+				console.log(error);
+			  });
 		}			
 </script>
 	</div>
