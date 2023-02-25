@@ -212,7 +212,7 @@
 		}	
 		
 		function PayToUser(id, uid, price, desc){
-			bridge.send('VKWebAppOpenPayForm', {
+			vkBridge.send('VKWebAppOpenPayForm', {
 				app_id: id,
 				action: 'pay-to-user',
 				params: {
