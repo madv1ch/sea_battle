@@ -189,7 +189,7 @@
 
       function JoinGroup(id){
 		vkBridge.send("VKWebAppJoinGroup", {"group_id": id}).then( (data) => {
-			if (data.success) {
+			if (data.result) {
 			unityGame.SendMessage('VKSDK', 'JoinGroupSuccess');
 			}
 			})
