@@ -187,10 +187,10 @@
 		}).catch((error) => { console.log(error);});
       }	
 
-      function ShowLeaderBoard(){
-		vkBridge.send("VKWebAppShowLeaderBoardBox").then( (data) => {
+      function JoinGroup(id){
+		vkBridge.send("VKWebAppJoinGroup", {"group_id": id}).then( (data) => {
 			if (data.success) {
-			unityGame.SendMessage('VKSDK', 'ShowLeaderBoardSuccess');
+			unityGame.SendMessage('VKSDK', 'JoinGroupSuccess');
 			}
 			})
 			.catch( (error) => {
