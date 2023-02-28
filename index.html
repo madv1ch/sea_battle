@@ -131,7 +131,7 @@
 		}
 		
 		function GetUserData(){
-			vkBridge.send("VKWebAppStorageGet",{"keys":["_save"]}).then((data) => { 
+			vkBridge.send("VKWebAppStorageGet",{"keys":["save_"]}).then((data) => { 
 				if (data.keys) {
 				  unityGame.SendMessage('VKSDK', 'DataGetting', JSON.stringify(data));
 				  console.log(JSON.stringify(data));
@@ -143,7 +143,7 @@
         }			
 
 		function SetUserData(data){
-			vkBridge.send('VKWebAppStorageSet',{"key": "_save", "value": data}).then(_info =>{
+			vkBridge.send('VKWebAppStorageSet',{"key": "save_", "value": data}).then(_info =>{
 			console.log("Saved!")});
 		}
 		
@@ -256,20 +256,32 @@
 				  });
 		}	
 
-		function Check(){
+		function Invite(){
+			vkBridge.send('VKWebAppShowInviteBox')
+			  .then( (data) => {
+				if (data.success) {
+					unityGame.SendMessage('VKSDK', 'InviteSuccess');
+				  // Этим выбранным пользователям 
+				  // не удалось отправить приглашения 
+				  console.log('Приглашения не отправлены: ', data.notSentIds);
+				}
+			  })
+			  .catch( (error) => {
+				console.log(JSON.stringify(error));
+			  });
+		}		
+
+		function AuthToken(id, scopes){
 			vkBridge.send('VKWebAppGetAuthToken', { 
-			  app_id: 51564311, 
-			  scope: 'friends,status'
+			  app_id: id, 
+			  scope: scopes
 			  })
 			  .then((data) => { 
-				if (data.access_token) {
-				  // Ключ доступа пользователя получен
-				}
-				console.log(JSON.stringify(data));
+				unityGame.SendMessage('VKSDK', 'AuthTokenSuccess', JSON.stringify(data));
 			  })
 			  .catch((error) => {
-				// Ошибка
-				console.log(error);
+			  unityGame.SendMessage('VKSDK', 'AuthTokenSuccess', '');
+				console.log(JSON.stringify(error));
 			  });
 		}		
 </script>
