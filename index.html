@@ -186,17 +186,26 @@
 			unityGame.SendMessage('VKSDK', 'CheckRewardFailed');
 		}).catch((error) => { console.log(error);});
       }	
-
-      function JoinGroup(id){
-		vkBridge.send("VKWebAppJoinGroup", {"group_id": id}).then( (data) => {
-			if (data.result) {
-			unityGame.SendMessage('VKSDK', 'JoinGroupSuccess');
-			}
-			})
-			.catch( (error) => {
-			console.log(JSON.stringify(error));
-			});
-		}		
+		
+      function ActivityFeed(version, token, score){
+			vkBridge.send('VKWebAppCallAPIMethod', {
+			  method: 'secure.addAppEvent',
+			  params: {
+				activity_id: '2',
+				value: score,
+				v: version,
+				access_token: token
+			  }})
+			  .then((data) => { 
+				if (data.response) {
+				  unityGame.SendMessage('VKSDK', 'ActivityFeedSuccess');
+				}
+				console.log(JSON.stringify(data));
+			  })
+			  .catch((error) => {
+				console.log(JSON.stringify(error));
+			  });
+		}			
 		
 		function Logger(_data){
 			console.log(_data);
