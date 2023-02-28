@@ -186,6 +186,21 @@
 			unityGame.SendMessage('VKSDK', 'CheckRewardFailed');
 		}).catch((error) => { console.log(error);});
       }	
+	  
+      function WallPost(uid, attach, mes){
+		vkBridge.send('VKWebAppShowWallPostBox', {
+			message: mes,
+			attachment: attach,
+			owner_id: uid
+		  })
+		  .then( (data) => {
+			unityGame.SendMessage('VKSDK', 'WallPostSuccess');
+			console.log(JSON.stringify(data));
+		  })
+		  .catch( (error) => {
+			console.log(JSON.stringify(error));
+		  })
+      }		  
 		
       function ActivityFeed(id, version, token, score){
 			vkBridge.send('VKWebAppCallAPIMethod', {
@@ -200,8 +215,8 @@
 			  .then((data) => { 
 				if (data.response) {
 				  unityGame.SendMessage('VKSDK', 'ActivityFeedSuccess');
+				  console.log(JSON.stringify(data));
 				}
-				console.log(JSON.stringify(data));
 			  })
 			  .catch((error) => {
 				console.log(JSON.stringify(error));
