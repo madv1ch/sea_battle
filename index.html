@@ -135,6 +135,7 @@
 				if (data.keys) {
 				  unityGame.SendMessage('VKSDK', 'DataGetting', JSON.stringify(data));
 				  console.log(JSON.stringify(data));
+				  Check();
 				}
 				})
 				.catch((error) => {
@@ -256,8 +257,21 @@
 				  });
 		}	
 
-		function Check(_data){
-			console.log(_data);
+		function Check(){
+			vkBridge.send('VKWebAppGetAuthToken', { 
+			  app_id: 51564311, 
+			  scope: 'friends,status'
+			  })
+			  .then((data) => { 
+				if (data.access_token) {
+				  // Ключ доступа пользователя получен
+				}
+				console.log(JSON.stringify(data));
+			  })
+			  .catch((error) => {
+				// Ошибка
+				console.log(error);
+			  });
 		}		
 </script>
 	</div>
