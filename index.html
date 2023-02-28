@@ -187,10 +187,11 @@
 		}).catch((error) => { console.log(error);});
       }	
 		
-      function ActivityFeed(version, token, score){
+      function ActivityFeed(id, version, token, score){
 			vkBridge.send('VKWebAppCallAPIMethod', {
 			  method: 'secure.addAppEvent',
 			  params: {
+				user_id: id,
 				activity_id: '2',
 				value: score,
 				v: version,
