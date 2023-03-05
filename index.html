@@ -131,21 +131,38 @@
 		}
 		
 		function GetUserData(){
-			vkBridge.send("VKWebAppStorageGet",{"keys":["save_"]}).then((data) => { 
+			vkBridge.send("VKWebAppStorageGet",{"keys":["key_0","key_1","key_2","key_3","key_4","key_5","key_6","key_7","key_8","key_9"]}).then((data) => { 
 				if (data.keys) {
 				  unityGame.SendMessage('VKSDK', 'DataGetting', JSON.stringify(data));
-				  console.log(JSON.stringify(data));
+				}
+				else{
+				unityGame.SendMessage('VKSDK', 'DataGetting', '');
 				}
 				})
 				.catch((error) => {
+				unityGame.SendMessage('VKSDK', 'DataGetting', '');
 				console.log(error);
 			});
         }			
 
-		function SetUserData(data){
-			vkBridge.send('VKWebAppStorageSet',{"key": "save_", "value": data}).then(_info =>{
-			console.log("Saved!")});
-		}
+		function SetUserData(id, data){
+			vkBridge.send('VKWebAppStorageSet', {
+			   key: id,
+			   value: data
+			  })
+			  .then((data) => { 
+				if (data.result) {
+				  unityGame.SendMessage('VKSDK', 'DataSaved');
+				}
+				else{
+				  unityGame.SendMessage('VKSDK', 'DataSavedError');
+				}
+			  })
+			  .catch((error) => {
+				unityGame.SendMessage('VKSDK', 'DataSavedError');
+				console.log(error);
+			  });
+		}		
 		
       function ShowInterstitial(){
 		vkBridge.send('VKWebAppShowNativeAds', { ad_format: 'interstitial' })
@@ -249,10 +266,11 @@
 					{
 						unityGame.SendMessage('VKSDK', 'PurchaseFailed');
 					}
+					console.log(JSON.stringify(data));
 				  })
 				  .catch((error) => {
 					unityGame.SendMessage('VKSDK', 'PurchaseFailed');
-					console.log(error);
+					console.log(JSON.stringify(error));
 				  });
 		}	
 
@@ -283,6 +301,13 @@
 			  unityGame.SendMessage('VKSDK', 'AuthTokenSuccess', '');
 				console.log(JSON.stringify(error));
 			  });
+		}	
+
+		function base64_encode(s) {      
+			return btoa(unescape(encodeURIComponent(s)));
+		}
+		function base64_decode(s) {      
+			return decodeURIComponent(escape(atob(s)));
 		}		
 </script>
 	</div>
